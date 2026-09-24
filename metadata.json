@@ -1,0 +1,6 @@
+{
+  "name": "Consulta Simples Nacional - Lote & Eventos Futuros",
+  "description": "Ferramenta de consulta em lote de CNPJ para verificação de Situação no Simples Nacional e Lançamentos/Eventos Futuros com suporte a arquivos XLSX/CSV e script Selenium.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

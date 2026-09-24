@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  consulta-optantes-vps:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: consulta_simples_app
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - PORT=3000
+      - NODE_ENV=production
+      - CHROME_PATH=/usr/bin/google-chrome-stable
+    # Necessário para execução do Chromium headless dentro do container com estabilidade
+    shm_size: '1gb'
+    security_opt:
+      - seccomp:unconfined
