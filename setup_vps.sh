@@ -41,7 +41,7 @@ pip3 install --break-system-packages --upgrade pip selenium webdriver-manager pa
 
 # 5. Instalação das dependências do projeto e build
 echo "[5/6] Instalando dependências e compilando aplicação..."
-npm install
+npm install --legacy-peer-deps
 npm run build
 
 # 6. Instalação do PM2 para manter a aplicação rodando 24/7

@@ -59,11 +59,11 @@ RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | gpg --d
     && apt-get install -y google-chrome-stable \
     && rm -rf /var/lib/apt/lists/*
 
-# Copia arquivos de definição de dependências
-COPY package.json package-lock.json* ./
+# Copia arquivos de definição de dependências e configuração do npm
+COPY package.json package-lock.json* .npmrc* ./
 
-# Instala dependências do Node.js
-RUN npm install
+# Instala dependências do Node.js com tolerância a peer dependencies
+RUN npm install --legacy-peer-deps
 
 # Copia todo o código fonte
 COPY . .
