@@ -1,6 +1,7 @@
 import express from 'express';
 import { createServer as createViteServer } from 'vite';
 import path from 'path';
+import fs from 'fs';
 import { fileURLToPath } from 'url';
 import os from 'os';
 import { scraperManager, findChromeExecutable } from './server/scraper.ts';
@@ -104,18 +105,23 @@ async function startServer() {
   });
 
   // Setup Vite in development or serve static in production
-  const isProd = process.env.NODE_ENV === 'production';
-  if (!isProd) {
-    const vite = await createViteServer({
-      server: { middlewareMode: true },
-      appType: 'spa',
-    });
-    app.use(vite.middlewares);
-  } else {
+  const hasDist = fs.existsSync(path.resolve(__dirname, 'dist', 'index.html'));
+  const isProd = process.env.NODE_ENV === 'production' || hasDist;
+
+  if (isProd && hasDist) {
     app.use(express.static(path.resolve(__dirname, 'dist')));
     app.get('*', (_req, res) => {
       res.sendFile(path.resolve(__dirname, 'dist', 'index.html'));
     });
+  } else {
+    const vite = await createViteServer({
+      server: {
+        middlewareMode: true,
+        allowedHosts: true as const,
+      },
+      appType: 'spa',
+    });
+    app.use(vite.middlewares);
   }
 
   app.listen(PORT, '0.0.0.0', () => {
